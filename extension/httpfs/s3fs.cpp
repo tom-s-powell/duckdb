@@ -612,8 +612,12 @@ ParsedS3Url S3FileSystem::S3UrlParse(string url, S3AuthParams &params) {
 	}
 
 	// remove scheme from custom endpoint
-	host = params.endpoint.starts_with("https://") ? params.endpoint.substr(8) : params.endpoint;
-	host = host.starts_with("http://") ? host.substr(7) : host;
+	auto scheme_pos = params.endpoint.find_first_of('://');
+	if (scheme_pos != string::npos) {
+		host = params.endpoint.substr(scheme_pos + 3);
+	} else {
+		host = params.endpoint;
+	}
 	host = params.url_style == "vhost" || params.url_style == "" ? bucket + "." + host : host;
 
 	http_proto = params.use_ssl ? "https://" : "http://";
