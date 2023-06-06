@@ -612,7 +612,7 @@ ParsedS3Url S3FileSystem::S3UrlParse(string url, S3AuthParams &params) {
 	}
 
 	// remove scheme from custom endpoint
-	auto scheme_pos = params.endpoint.find_first_of('://');
+	auto scheme_pos = params.endpoint.find_first_of("://");
 	if (scheme_pos != string::npos) {
 		host = params.endpoint.substr(scheme_pos + 3);
 	} else {
